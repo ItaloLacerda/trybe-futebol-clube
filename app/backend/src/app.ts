@@ -1,3 +1,4 @@
+import 'express-async-errors';
 import * as express from 'express';
 import ErrorHandler from './middlewares/ErrorHandler';
 import TeamRouter from './router';
