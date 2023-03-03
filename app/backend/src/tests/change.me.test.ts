@@ -29,4 +29,15 @@ describe('Testa endpoint "/teams" ', () => {
     expect(response.status).to.be.equal(200);
     expect(response.body).to.deep.equal(mockTeams)
   });
+
+  it('Verifica Se a rota "/team:id" retorna o time corretamente', async function() {
+
+    sinon.stub(Team, 'findOne').resolves( mockTeams[0] as Team);
+
+    const response = await chai
+        .request(app)
+        .get('/teams/1');
+    expect(response.status).to.be.equal(200);
+    expect(response.body).to.deep.equal(mockTeams[0])
+  });
 });
