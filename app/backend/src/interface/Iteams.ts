@@ -1,4 +1,4 @@
-import { ImenssageStatus } from './ImenssageError';
+import { ImenssageStatus } from './ImenssageStatus';
 import { Iteam } from './Iteam';
 
 export interface Iteams {
