@@ -1,4 +1,5 @@
 import * as express from 'express';
+import ErrorHandler from './middlewares/ErrorHandler';
 import TeamRouter from './router';
 
 class App {
@@ -11,6 +12,9 @@ class App {
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
+
+    this.initRoutes();
+    this.initMiddlewares();
   }
 
   private config():void {
@@ -24,7 +28,15 @@ class App {
     this.app.use(express.json());
     this.app.use(accessControl);
 
+    // this.app.use('/teams', TeamRouter);
+  }
+
+  private initRoutes(): void {
     this.app.use('/teams', TeamRouter);
+  }
+
+  private initMiddlewares(): void {
+    this.app.use(ErrorHandler.handle);
   }
 
   public start(PORT: string | number):void {
