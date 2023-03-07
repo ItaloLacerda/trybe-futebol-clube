@@ -1,6 +1,6 @@
 import { NextFunction, Response, Request } from 'express';
 
-class UserValidation {
+class ThereIsUser {
   public static ThereIsEmail(
     req: Request,
     res: Response,
@@ -28,4 +28,4 @@ class UserValidation {
   }
 }
 
-export default UserValidation;
+export default ThereIsUser;
