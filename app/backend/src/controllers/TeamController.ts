@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import TeamService from '../services';
+import { TeamService } from '../services';
 import { Iteams } from '../interface/Iteams';
 import { IteamController } from '../interface/IteamController';
 
