@@ -1,5 +1,5 @@
 import { Request, Router, Response } from 'express';
-import UserValidation from '../middlewares/UserValidation';
+import UserValidation from '../middlewares/ThereIsUser';
 import { UserController } from '../controllers';
 
 const router = Router();
