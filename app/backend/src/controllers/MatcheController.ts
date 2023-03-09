@@ -19,4 +19,9 @@ export default class MatcheController {
 
     return next();
   };
+
+  finishAMatch = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    return res.status(200).json(await this._matcheService.finishAMatch(id));
+  };
 }
