@@ -8,7 +8,7 @@ import JwtMethods from '../utils/jwt/JwtMethods';
 
 export default class UserService implements IuserService {
   constructor(
-    private _teamModel: ModelStatic<UserModel> = UserModel,
+    private _userModel: ModelStatic<UserModel> = UserModel,
     private _jwt = new JwtMethods(),
   ) {}
 
@@ -20,7 +20,7 @@ export default class UserService implements IuserService {
       throw new Errors('401', mensageError);
     }
 
-    const userModel = await this._teamModel.findOne({
+    const userModel = await this._userModel.findOne({
       where: {
         email: Email,
       },
