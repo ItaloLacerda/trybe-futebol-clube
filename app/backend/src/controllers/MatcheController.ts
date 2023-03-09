@@ -35,4 +35,20 @@ export default class MatcheController {
           .updateScore(Number(id), Number(homeTeamGoals), Number(awayTeamGoals)),
       );
   };
+
+  registerANewGame = async (req: Request, res: Response) => {
+    const {
+      homeTeamId,
+      homeTeamGoals,
+      awayTeamId,
+      awayTeamGoals } = req.body;
+
+    return res.status(201).json(await this._matcheService
+      .registerANewGame(
+        Number(homeTeamId),
+        Number(homeTeamGoals),
+        Number(awayTeamId),
+        Number(awayTeamGoals),
+      ));
+  };
 }
