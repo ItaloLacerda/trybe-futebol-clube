@@ -8,6 +8,7 @@ module.exports = {
           autoIncrement: true,
         },
         homeTeamId: {
+          foreignKey: true,
           type: Sequelize.INTEGER,
           allowNull: false,
           field: 'home_team_id'
@@ -18,6 +19,7 @@ module.exports = {
             field: 'home_team_goals'
           },
         awayTeamId: {
+            foreignKey: true,
             type: Sequelize.INTEGER,
             allowNull: false,
             field: 'away_team_id'
