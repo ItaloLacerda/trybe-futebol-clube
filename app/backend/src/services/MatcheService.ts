@@ -44,11 +44,23 @@ export default class MatcheService {
     });
   }
 
-  finishAMatch(id: string) {
-    this._MatchesModel.update({ inProgress: false }, {
-      where: { id: Number(id) },
+  async finishAMatch(id: number) {
+    await this._MatchesModel.update({ inProgress: false }, {
+      where: { id },
     });
 
     return { message: 'Finished' };
+  }
+
+  async updateScore(
+    id: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ) {
+    await this._MatchesModel.update({ homeTeamGoals, awayTeamGoals }, {
+      where: { id },
+    });
+
+    return { homeTeamGoals, awayTeamGoals };
   }
 }
