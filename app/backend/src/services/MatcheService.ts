@@ -24,4 +24,23 @@ export default class MatcheService {
       }],
     });
   }
+
+  fetchMatchByProgress(inProgress: string) {
+    return this._MatchesModel.findAll({
+      where: { inProgress: inProgress === 'true' },
+      include: [{
+        model: TeamModel,
+        as: 'homeTeam',
+        attributes: {
+          exclude: ['id'],
+        },
+      }, {
+        model: TeamModel,
+        as: 'awayTeam',
+        attributes: {
+          exclude: ['id'],
+        },
+      }],
+    });
+  }
 }
