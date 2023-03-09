@@ -63,4 +63,16 @@ export default class MatcheService {
 
     return { homeTeamGoals, awayTeamGoals };
   }
+
+  async registerANewGame(
+    homeTeamId: number,
+    homeTeamGoals: number,
+    awayTeamId: number,
+    awayTeamGoals: number,
+  ) {
+    const model = this._MatchesModel
+      .create({ homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress: true });
+
+    return model;
+  }
 }
