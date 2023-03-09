@@ -43,4 +43,12 @@ export default class MatcheService {
       }],
     });
   }
+
+  finishAMatch(id: string) {
+    this._MatchesModel.update({ inProgress: false }, {
+      where: { id: Number(id) },
+    });
+
+    return { message: 'Finished' };
+  }
 }
