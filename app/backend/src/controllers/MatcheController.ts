@@ -22,6 +22,17 @@ export default class MatcheController {
 
   finishAMatch = async (req: Request, res: Response) => {
     const { id } = req.params;
-    return res.status(200).json(await this._matcheService.finishAMatch(id));
+    return res.status(200).json(await this._matcheService.finishAMatch(Number(id)));
+  };
+
+  updateScore = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    return res
+      .status(200)
+      .json(
+        await this._matcheService
+          .updateScore(Number(id), Number(homeTeamGoals), Number(awayTeamGoals)),
+      );
   };
 }
