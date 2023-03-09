@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { MatcheService } from '../services';
 
 export default class MatcheController {
@@ -8,4 +8,15 @@ export default class MatcheController {
 
   fetchAllMatches = async (_req: Request, res: Response) => res
     .status(200).json(await this._matcheService.fetchAllMatches());
+
+  fetchMatchByProgress = async (req: Request, res: Response, next: NextFunction) => {
+    if (Object.keys(req.query)[0] === 'inProgress') {
+      const { inProgress } = req.query;
+      if (inProgress === 'true' || inProgress === 'false') {
+        return res.status(200).json(await this._matcheService.fetchMatchByProgress(inProgress));
+      }
+    }
+
+    return next();
+  };
 }
