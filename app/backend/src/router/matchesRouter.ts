@@ -4,7 +4,7 @@ import Validations from '../middlewares/Validations';
 
 const router = Router();
 
-const { thereIsToken } = new Validations();
+const { thereIsToken, checkTimes } = new Validations();
 const {
   fetchAllMatches,
   fetchMatchByProgress,
@@ -14,7 +14,7 @@ const {
 
 router.get('/', fetchMatchByProgress, fetchAllMatches);
 
-router.post('/', thereIsToken, registerANewGame);
+router.post('/', thereIsToken, checkTimes, registerANewGame);
 
 router.patch('/:id/finish', thereIsToken, finishAMatch);
 
