@@ -18,4 +18,16 @@ export default class Validations {
       return res.status(401).json({ message: 'Token must be a valid token' });
     }
   };
+
+  checkTimes = (req: Request, res: Response, next: NextFunction) => {
+    const { homeTeamId, awayTeamId } = req.body;
+
+    if (homeTeamId === awayTeamId) {
+      res
+        .status(422)
+        .json({ message: 'It is not possible to create a match with two equal teams' });
+    }
+
+    next();
+  };
 }
