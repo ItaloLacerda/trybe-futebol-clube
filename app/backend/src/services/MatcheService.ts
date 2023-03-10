@@ -1,10 +1,12 @@
 import { ModelStatic } from 'sequelize';
+import Errors from '../utils/errors/ErrorsMap';
 import MatchesModel from '../database/models/MatchesModel';
 import TeamModel from '../database/models/TeamModel';
 
 export default class MatcheService {
   constructor(
     private _MatchesModel: ModelStatic<MatchesModel> = MatchesModel,
+    private _TeamModel: ModelStatic<TeamModel> = TeamModel,
   ) {}
 
   fetchAllMatches() {
@@ -70,9 +72,18 @@ export default class MatcheService {
     awayTeamId: number,
     awayTeamGoals: number,
   ) {
+    const findTeamId = await this._TeamModel.findAll({ attributes: {
+      exclude: ['teamName'],
+    } });
+
+    const validHomeTeam = findTeamId.some((w) => w.id === homeTeamId);
+    const validAwayTeam = findTeamId.some((w) => w.id === awayTeamId);
+
+    if (!validHomeTeam || !validAwayTeam) {
+      throw new Errors('404', 'There is no team with such id!');
+    }
     const model = this._MatchesModel
       .create({ homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress: true });
-
     return model;
   }
 }
