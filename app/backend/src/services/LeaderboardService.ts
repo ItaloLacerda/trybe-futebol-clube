@@ -1,11 +1,14 @@
 import { ModelStatic, QueryTypes } from 'sequelize';
 import TeamModel from '../database/models/TeamModel';
 import sequelize from '../database/models';
+import Compare from '../utils/comparisons/Compare';
+import { ItotalGames } from '../interface/IteamsInformation';
 
 export default class LeaderboardService {
   constructor(
     private _sequelize = sequelize,
     private _TeamModel: ModelStatic<TeamModel> = TeamModel,
+    private _Compare = new Compare(),
   ) {}
 
   async teamsPerformanceInformation() {
@@ -15,11 +18,13 @@ export default class LeaderboardService {
         .teamInformation(team.id, team.teamName)),
     );
 
-    return informations;
+    const ordeByTeams = (await informations).sort(this._Compare.totalPoints);
+    console.log(ordeByTeams);
+    return ordeByTeams;
   }
 
   async teamInformation(id: number, name: string) {
-    const totalGames = await this.fectchTotalGames(id);
+    const { totalGames } = await this.fectchTotalGames(id);
     const totalVictories = await this.fectchTotalVictories(id);
     const totalLosses = await this.fectchTotalLosses(id);
     const totalDraws = await this.fectchTotalDraws(id);
@@ -27,26 +32,26 @@ export default class LeaderboardService {
     const goalsOwn = await this.calculateGoalsConceded(id);
     const victoriesDraws = Object.values({ ...totalVictories, ...totalDraws });
     const totalPoints = (Number(victoriesDraws[0]) * 3) + Number(victoriesDraws[1]);
-    return {
-      name,
+    return { name,
       totalPoints,
-      ...totalGames,
+      totalGames,
       ...totalVictories,
-      ...totalLosses,
       ...totalDraws,
+      ...totalLosses,
       goalsFavor,
       goalsOwn,
-    };
+      goalsBalance: goalsFavor - goalsOwn,
+      efficiency: Number(((totalPoints / (totalGames * 3)) * 100).toFixed(2)) };
   }
 
-  async fectchTotalGames(id: number) {
+  async fectchTotalGames(id: number): Promise<ItotalGames> {
     const [results] = await this._sequelize
       .query(
         `SELECT COUNT(*) AS totalGames FROM matches
          WHERE in_progress = false 
          AND (home_team_id = ${id} OR away_team_id = ${id});`,
         { type: QueryTypes.SELECT },
-      );
+      ) as ItotalGames[];
     return results;
   }
 
