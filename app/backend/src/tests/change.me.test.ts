@@ -5,9 +5,12 @@ import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 import Team from '../database/models/TeamModel';
+import User from '../database/models/UserModel';
+import Jwt from '../utils/jwt/JwtMethods'
 
 import { Response } from 'superagent';
 import { mockTeams } from './mocks/teams'
+import { tokenMock, userLogin, validLogin } from './mocks/login';
 
 chai.use(chaiHttp);
 
@@ -39,5 +42,18 @@ describe('Testa endpoint "/teams" ', () => {
         .get('/teams/1');
     expect(response.status).to.be.equal(200);
     expect(response.body).to.deep.equal(mockTeams[0])
+  });
+
+  it('Verifica Se a rota "/login" retorna o token corretamente', async function() {
+
+    sinon.stub(User, 'findOne').resolves( userLogin as User);
+    sinon.stub(new Jwt(), 'createToken').returns(tokenMock);
+
+    const response = await chai
+        .request(app)
+        .post('/login')
+        .send(validLogin);
+    expect(response.status).to.be.equal(200);
+    expect(response.body).to.deep.equal({token: tokenMock})
   });
 });
