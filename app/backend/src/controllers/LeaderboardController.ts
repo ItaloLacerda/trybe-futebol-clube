@@ -9,4 +9,8 @@ export default class LeaderboardController {
   teamPerformanceInformation = async (_req: Request, res: Response) => res
     .status(200)
     .json(await this._LeaderboardService.teamsPerformanceInformation());
+
+  teamPerformanceInformationHome = async (_req: Request, res: Response) => res
+    .status(200)
+    .json(await this._LeaderboardService.teamsPerformanceInformationHome());
 }
