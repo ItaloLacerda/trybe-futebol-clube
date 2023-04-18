@@ -6,11 +6,7 @@ export default class Compare {
       return this.totalVictories(a, b);
     }
 
-    if (a.totalPoints > b.totalPoints) {
-      return -1;
-    }
-
-    return 1;
+    return b.totalPoints - a.totalPoints;
   };
 
   totalVictories = (a: IteamsInformation, b: IteamsInformation): number => {
@@ -19,12 +15,9 @@ export default class Compare {
         return this.goalsBalance(a, b);
       }
 
-      if (a.totalVictories > b.totalVictories) {
-        return -1;
-      }
+      return b.totalVictories - a.totalVictories;
     }
-
-    return 1;
+    return 0;
   };
 
   goalsBalance = (a: IteamsInformation, b: IteamsInformation) => {
@@ -32,11 +25,7 @@ export default class Compare {
       return this.goalsFavor(a, b);
     }
 
-    if (a.goalsBalance > b.goalsBalance) {
-      return -1;
-    }
-
-    return 1;
+    return b.goalsBalance - a.goalsBalance;
   };
 
   goalsFavor = (a: IteamsInformation, b: IteamsInformation) => {
@@ -44,11 +33,7 @@ export default class Compare {
       return this.goalsOwn(a, b);
     }
 
-    if (a.goalsFavor > b.goalsFavor) {
-      return -1;
-    }
-
-    return 1;
+    return b.goalsFavor - a.goalsFavor;
   };
 
   goalsOwn = (a: IteamsInformation, b: IteamsInformation) => {
@@ -56,10 +41,6 @@ export default class Compare {
       return 0;
     }
 
-    if (a.goalsOwn > b.goalsOwn) {
-      return -1;
-    }
-
-    return 1;
+    return b.goalsOwn - a.goalsOwn;
   };
 }
